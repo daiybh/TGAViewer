@@ -7,9 +7,6 @@
         xmlns:viewModel="clr-namespace:TGAViewer.MVVM.ViewModel"
         mc:Ignorable="d"
         Title="TgaViewer" Height="450" MinHeight="{Binding MinHeight}" MinWidth="{Binding MinWidth}" Width="800">
-    <Window.DataContext>
-        <viewModel:MainWindowViewModel></viewModel:MainWindowViewModel>
-    </Window.DataContext>
     <Grid Background="Black">
         <Image Source="{Binding Image, UpdateSourceTrigger=PropertyChanged}"></Image>
     </Grid>

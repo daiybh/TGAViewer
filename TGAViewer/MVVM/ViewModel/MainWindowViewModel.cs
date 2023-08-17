@@ -1,34 +1,28 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Media.Imaging;
+using Microsoft.Win32;
 using TGAViewer.MVVM.Model;
 
 namespace TGAViewer.MVVM.ViewModel;
 
-public class MainWindowViewModel {
-    private string? _path;
+public class MainWindowViewModel
+{
 
-    private string Path {
-        get {
-            if (_path == null) {
-                var args = Environment.GetCommandLineArgs();
-                if (args.Length <= 1) {
-                    MessageBox.Show("Please specify path to image!");
-                    Environment.Exit(0);
-                }
-                return args[1];
-            }
-
-            return _path;
-        }
+    public MainWindowViewModel(string path)
+    {
+        _path = path;
     }
+    private string _path;
 
     private BitmapSource? _image;
 
-    public BitmapSource Image {
-        get {
+    public BitmapSource Image
+    {
+        get
+        {
             if (_image == null)
-                _image = TgaLoader.LoadAndDisplayTgaImage(Path);
+                _image = TgaLoader.LoadAndDisplayTgaImage(_path);
             return _image;
         }
     }
