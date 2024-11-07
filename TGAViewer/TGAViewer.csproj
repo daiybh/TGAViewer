@@ -6,10 +6,11 @@
         <Nullable>enable</Nullable>
         <UseWPF>true</UseWPF>
         <ApplicationIcon>MVVM\Model\Assets\icon.ico</ApplicationIcon>
+        <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="FreeImage.Standard" Version="4.3.9-beta4" />
+      <Folder Include="MVVM\ViewModel\" />
     </ItemGroup>
 
 </Project>

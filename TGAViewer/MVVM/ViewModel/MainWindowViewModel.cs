@@ -2,7 +2,6 @@
 using System.Windows;
 using System.Windows.Media.Imaging;
 using Microsoft.Win32;
-using TGAViewer.MVVM.Model;
 
 namespace TGAViewer.MVVM.ViewModel;
 
@@ -21,8 +20,7 @@ public class MainWindowViewModel
     {
         get
         {
-            if (_image == null)
-                _image = TgaLoader.LoadAndDisplayTgaImage(_path);
+           
             return _image;
         }
     }

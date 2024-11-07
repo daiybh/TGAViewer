@@ -6,8 +6,25 @@
         xmlns:local="clr-namespace:TGAViewer"
         xmlns:viewModel="clr-namespace:TGAViewer.MVVM.ViewModel"
         mc:Ignorable="d"
-        Title="TgaViewer" Height="450" MinHeight="{Binding MinHeight}" MinWidth="{Binding MinWidth}" Width="800">
-    <Grid Background="Black">
-        <Image Source="{Binding Image, UpdateSourceTrigger=PropertyChanged}"></Image>
+        
+        Title="TgaViewer" Height="450" MinHeight="{Binding MinHeight}" MinWidth="{Binding MinWidth}" Width="800"
+        PreviewKeyDown="Window_PreviewKeyDown"
+        >
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+
+        <ListBox x:Name="listBox" Grid.Column="0" SelectionChanged="listBox_SelectionChanged" />
+        <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Center"
+                      Background="Gray" VerticalAlignment="Stretch"/>
+        
+        <Grid Grid.Column="2" Background="Black">
+            <Image  x:Name="xxxxb" Source="{Binding Image, UpdateSourceTrigger=PropertyChanged}"></Image>
+        </Grid>
     </Grid>
+    
+    
 </Window>
