@@ -2,8 +2,12 @@
 using System;
 using System.IO;
 using System.Windows;
+using System.Windows.Media.Media3D;
+using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using System.Xml.Linq;
+using Lib.Framework;
 
 namespace TGAViewer
 {
@@ -154,6 +158,49 @@ namespace TGAViewer
                 string FilePath = System.IO.Path.Combine(FolderPath, $"{selectedFileName}.tga");
                 LoadTGA(FilePath);
             }
+        }
+        public void Scale(double dx, double dy, double pivotX, double pivotY)
+        {
+            xxxxb?.Dispatcher?.Invoke(() =>
+            {
+                TransformGroup group = (TransformGroup)xxxxb.RenderTransform;
+                ScaleTransform scale = (ScaleTransform)group.Children[0];
+                TranslateTransform translate = (TranslateTransform)group.Children[1];
+
+                double pivotXInObjectSpace = (pivotX - translate.X) / scale.ScaleX;
+                double pivotYInObjectSpace = (pivotY - translate.Y) / scale.ScaleY;
+
+                scale.ScaleX = (scale.ScaleX + dx).Clamp(1, 99);
+                scale.ScaleY = (scale.ScaleY + ( dy)).Clamp(1,99);
+
+                double newX = pivotX - pivotXInObjectSpace * scale.ScaleX;
+                double newY = pivotY - pivotYInObjectSpace * scale.ScaleY;
+                var p = new Point(xxxxb.ActualWidth, xxxxb.ActualHeight);
+                translate.X = newX.Clamp(p.X - scale.ScaleX * p.X, 0);
+                translate.Y = newY.Clamp(p.Y - scale.ScaleY * p.Y, 0);
+
+                //xxxxb.Scale.X = scale.ScaleX;
+                //xxxxb.Scale.Y = scale.ScaleY;
+
+                //_player.Translate.X = translate.X / _player.OriginalSize.X;
+                //_player.Translate.Y = translate.Y / _player.OriginalSize.Y;
+
+               // xxxxb.Zoom = scale.ScaleX;
+            }, DispatcherPriority.Normal);
+
+        }
+       
+        private void xxxxb_MouseWheel(object sender, System.Windows.Input.MouseWheelEventArgs e)
+        {
+
+            var center = e.GetPosition(showGrid);
+
+            double temp = e.Delta * 0.001;
+            
+            temp = temp.Clamp(-99, 99);
+         
+            Scale(temp, temp, center.X, center.Y);
+            // SetTransform(_player.Translate.X, _player.Translate.Y, _player.Scale.X + e.Delta / 1000, _player.Scale.Y)
         }
     }
 }
