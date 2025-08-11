@@ -76,7 +76,7 @@ namespace Lib.Tga
         public TgaImage(BinaryReader reader) : this(reader, false)
         {
         }
-
+        public TgaImage() { }
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -85,7 +85,15 @@ namespace Lib.Tga
         public TgaImage(BinaryReader reader, bool useAlphaChannelForcefully)
         {
             useAlphaChannelForcefully_ = useAlphaChannelForcefully;
-
+            Load(reader, useAlphaChannelForcefully);
+        }
+        public TgaImage load(BinaryReader reader)
+        {
+            Load(reader, false);
+            return this;
+        }
+        void Load(BinaryReader reader, bool useAlphaChannelForcefully)
+        {
             Header = new Header(reader);
 
             ImageID = new byte[Header.IDLength];
@@ -209,6 +217,7 @@ namespace Lib.Tga
 
                 case ImageTypes.TrueColor:
                 case ImageTypes.CompressedTrueColor:
+                case ImageTypes.CompressedTrueColorwithAlpha:
                     {
                         switch (Header.PixelDepth)
                         {

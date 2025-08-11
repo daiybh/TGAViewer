@@ -59,6 +59,8 @@ namespace Lib.Tga
         /// <summary>Run-length encoded, black and white image.</summary>
         public const byte CompressedMonochrome = 11;
 
+        public const byte CompressedTrueColorwithAlpha = 22;
+
         /// <summary>
         /// Formatted text.
         /// </summary>
@@ -70,6 +72,7 @@ namespace Lib.Tga
             { Monochrome, "monochrome(uncompressed)" },
             { CompressedColorMapped, "color-mapped(RLE)" },
             { CompressedTrueColor, "true-color(RLE)" },
+            { CompressedTrueColorwithAlpha, "true-color(RLE) with Alpha" },
             { CompressedMonochrome, "monochrome(RLE)" },
         };
 

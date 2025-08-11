@@ -14,6 +14,7 @@ namespace TGAViewer
     public partial class MainWindow : Window
     {
         string FolderPath = "E:\\TGA\\DualAlpha";
+        string fileExtension= ".tga";
         DispatcherTimer dispatcherTimer = null;
         public MainWindow()
         {
@@ -25,6 +26,7 @@ namespace TGAViewer
             {
                 var dialog = new Microsoft.Win32.OpenFileDialog();
                 dialog.Filter = "TGA Files|*.tga";
+                dialog.Filter = "PNG Files|*.png|TGA Files|*.tga|All Files|*.*";
                 dialog.Title = "Select tga to open";
                 var result = dialog.ShowDialog();
                 if (result == true)
@@ -32,6 +34,7 @@ namespace TGAViewer
                     path = dialog.FileName;
                     //get folder Path from Path
                     FolderPath = System.IO.Path.GetDirectoryName(path);
+                    fileExtension = System.IO.Path.GetExtension(path);
                 }
                 else
                 {
@@ -44,7 +47,7 @@ namespace TGAViewer
         }
         void LoadFileToListBox()
         {
-            var files = Directory.GetFiles(FolderPath, "*.tga", SearchOption.TopDirectoryOnly);
+            var files = Directory.GetFiles(FolderPath, $"*{fileExtension}", SearchOption.TopDirectoryOnly);
 
             foreach (var file in files)
             {
@@ -84,21 +87,7 @@ namespace TGAViewer
         void LoadTGA(string FilePath)
         {            
             this.Title = FilePath;
-            try
-            {
-                using (var fs = new FileStream(FilePath, FileMode.Open, FileAccess.Read, FileShare.Read))
-                {
-                    using (var reader = new BinaryReader(fs))
-                    {
-                        xxxxb.Source = new TgaImage(reader).GetBitmap();
-                        //main.DataContext = new TgaImage(reader).GetBitmap();
-                    }
-                }
-            }
-            catch (System.Exception ex)
-            {
-
-            }
+            xxxxb.Source = TgaPngEngine.Load(FilePath);
         }
         void loadPreTGA()
         {
@@ -155,7 +144,7 @@ namespace TGAViewer
             var selectedFileName = listBox.SelectedItem as string;
             if (selectedFileName != null)
             {
-                string FilePath = System.IO.Path.Combine(FolderPath, $"{selectedFileName}.tga");
+                string FilePath = System.IO.Path.Combine(FolderPath, $"{selectedFileName}{fileExtension}");
                 LoadTGA(FilePath);
             }
         }

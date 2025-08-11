@@ -1,9 +1,45 @@
 ﻿using System.Collections.Concurrent;
 using System.IO;
 using System.Windows.Media.Imaging;
+using TGAViewer.Lib.Tga;
 
 namespace Lib.Tga
 {
+    public class TgaPngEngine
+    {
+        private static  TgaImage tgaImageProvier= new TgaImage();
+        private static PngImage pngImageProvider = new PngImage();
+       public static  BitmapSource Load(string FilePath)
+        {
+            //from file extension  to use tgaimage or pngimage
+            if (string.IsNullOrEmpty(FilePath) || !File.Exists(FilePath)) return null;
+
+            try
+            {
+                using (var fs = new FileStream(FilePath, FileMode.Open, FileAccess.Read, FileShare.Read))
+                {
+
+                    if (Path.GetExtension(FilePath).ToLower() == ".png")
+                    {
+                       return pngImageProvider.PngStreamToBitmapSource(fs);
+                    }
+                    else if (Path.GetExtension(FilePath).ToLower() == ".tga")
+                    {
+                        using (var reader = new BinaryReader(fs))
+                        {
+                            return tgaImageProvier.load(reader).GetBitmap();
+                        }
+                    }
+                }
+            }
+            catch (System.Exception ex)
+            {
+
+            }
+            return null;
+
+        }
+    }
     public sealed class TgaEngine
     {
         private static readonly ConcurrentDictionary<string, TgaProvider> Tgas = new ConcurrentDictionary<string, TgaProvider>();
