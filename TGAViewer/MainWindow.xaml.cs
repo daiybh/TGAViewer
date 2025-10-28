@@ -21,12 +21,9 @@ namespace TGAViewer
             InitializeComponent();
             
             string path = "";
-
-            
             {
-                var dialog = new Microsoft.Win32.OpenFileDialog();
-                dialog.Filter = "TGA Files|*.tga";
-                dialog.Filter = "PNG Files|*.png|TGA Files|*.tga|All Files|*.*";
+                var dialog = new Microsoft.Win32.OpenFileDialog();                
+                dialog.Filter = "Image Files|*.tga;*.png|PNG Files|*.png|TGA Files|*.tga";
                 dialog.Title = "Select tga to open";
                 var result = dialog.ShowDialog();
                 if (result == true)
