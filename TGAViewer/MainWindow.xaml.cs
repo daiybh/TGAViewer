@@ -85,6 +85,7 @@ namespace TGAViewer
         {            
             this.Title = FilePath;
             xxxxb.Source = TgaPngEngine.Load(FilePath);
+            imageInfoText.Text= $"Width: {xxxxb.Source.Width}, Height: {xxxxb.Source.Height}";
         }
         void loadPreTGA()
         {
